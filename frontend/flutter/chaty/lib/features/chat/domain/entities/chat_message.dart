@@ -36,8 +36,10 @@ class MessageResponse {
 }
 
 class MessageUpdate {
+  final String requestId;
   final bool isRead;
   MessageUpdate({
+    required this.requestId,
     required this.isRead,
   });
 }

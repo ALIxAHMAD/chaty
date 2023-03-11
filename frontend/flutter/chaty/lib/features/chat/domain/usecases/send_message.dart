@@ -5,7 +5,7 @@ class SendMessageUseCase {
 
   SendMessageUseCase(this.repository);
 
-  void call(
+  Future<void> call(
     String userName,
     String content,
     String requestId,

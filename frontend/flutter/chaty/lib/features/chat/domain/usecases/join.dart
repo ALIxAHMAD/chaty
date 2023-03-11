@@ -5,7 +5,7 @@ class JoinChatUseCase {
 
   JoinChatUseCase(this.repository);
 
-  void call(String userName) {
+  Future<void> call(String userName) {
     return repository.join(userName);
   }
 }

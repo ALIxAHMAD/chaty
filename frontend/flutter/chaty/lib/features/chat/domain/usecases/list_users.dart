@@ -5,7 +5,7 @@ class ListUsersUseCase {
 
   ListUsersUseCase(this.repository);
 
-  void call(String userId) {
+  Future<void> call(String userId) {
     return repository.listUsers(userId);
   }
 }

@@ -19,17 +19,17 @@ abstract class ChatRepository {
     required this.typingStates,
     required this.messageUpdates,
   });
-
-  void join(String userName);
-  void sendMessage(
+  Future<void> connect();
+  Future<void> join(String userName);
+  Future<void> sendMessage(
     String userName,
     String content,
     String requestId,
     String userId,
   );
-  void updateTypingState(
+  Future<void> updateTypingState(
     String id,
     bool isTyping,
   );
-  void listUsers(String userId);
+  Future<void> listUsers(String userId);
 }

@@ -12,12 +12,12 @@ import (
 
 type Server struct {
 	proto.UnimplementedChatServiceServer
-	clients map[string]proto.ChatService_ConnectServer
+	Hub *Hub
 }
 
-func NewServer() Server {
+func NewServer(hub *Hub) Server {
 	return Server{
-		clients: make(map[string]proto.ChatService_ConnectServer),
+		Hub: hub,
 	}
 }
 
@@ -36,42 +36,123 @@ func (s *Server) Serve(port string) {
 
 func (s *Server) Connect(conn proto.ChatService_ConnectServer) error {
 	userId := fmt.Sprint(rand.Intn(1e6))
-	s.clients[userId] = conn
+	client := &Client{
+		Id:      userId,
+		Conn:    conn,
+		Message: make(chan *Message),
+	}
 	for {
 		req, err := conn.Recv()
 		if err != nil {
 			fmt.Println("Error receiving request:", err)
-			delete(s.clients, userId)
+			s.handleUserDisconnect(client.Id, client.Name)
 			return err
 		}
 		switch req := req.Event.(type) {
 		case *proto.ClientEvents_JoinRequest:
-			err = s.handleJoinRequest(conn, req, userId)
-			if err != nil {
-				delete(s.clients, userId)
-				return err
-			}
+			s.handleJoinRequest(conn, req, client)
 		case *proto.ClientEvents_ListUsers:
-			// Do Something
+			s.handleListUsers(conn, req, userId)
 		case *proto.ClientEvents_MessageRequest:
-			// Do Something
+			s.handleMessageRequest(conn, req, userId)
 		case *proto.ClientEvents_Typing_State:
-			// Do Something
+			s.handleUpdateTypingState(conn, req, userId)
 		}
 	}
 }
 
-func (s *Server) handleJoinRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_JoinRequest, userId string) error {
+func (s *Server) handleJoinRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_JoinRequest, client *Client) {
 	err := conn.Send(&proto.ServerEvents{
 		Event: &proto.ServerEvents_JoinResponse{
 			JoinResponse: &proto.JoinResponse{
-				UserId:   userId,
+				UserId:   client.Id,
 				UserName: req.JoinRequest.UserName,
 			},
 		},
 	})
 	if err != nil {
-		return err
+		return
 	}
-	return nil
+	client.Name = req.JoinRequest.UserName
+	s.Hub.Register <- client
+	go client.sendMessage()
+	msg := &Message{
+		SenderId: client.Id,
+		Event: &proto.ServerEvents{
+			Event: &proto.ServerEvents_UserEvents{
+				UserEvents: &proto.UserEvents{
+					UserId:   client.Id,
+					Events:   proto.UserEvents_joined,
+					UserName: req.JoinRequest.UserName,
+				},
+			},
+		},
+	}
+	s.Hub.Broadcast <- msg
+}
+
+func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_MessageRequest, userId string) {
+	msg := &Message{
+		SenderId: userId,
+		Event: &proto.ServerEvents{
+			Event: &proto.ServerEvents_ChatMessage{
+				ChatMessage: &proto.ChatMessage{
+					UserId:   req.MessageRequest.Message.UserId,
+					UserName: req.MessageRequest.Message.UserName,
+					Text:     req.MessageRequest.Message.Text,
+				},
+			},
+		},
+	}
+	s.Hub.Broadcast <- msg
+	conn.Send(&proto.ServerEvents{
+		Event: &proto.ServerEvents_MessageResponse{
+			MessageResponse: &proto.MessageResponse{
+				IsOk:      true,
+				RequestId: req.MessageRequest.RequestId,
+			},
+		},
+	})
+}
+
+func (s *Server) handleUpdateTypingState(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_Typing_State, userId string) {
+	msg := &Message{
+		SenderId: userId,
+		Event: &proto.ServerEvents{
+			Event: &proto.ServerEvents_TypingState{
+				TypingState: &proto.TypingState{
+					UserId:   req.Typing_State.UserId,
+					IsTyping: req.Typing_State.IsTyping,
+				},
+			},
+		},
+	}
+	s.Hub.Broadcast <- msg
+}
+
+func (s *Server) handleListUsers(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_ListUsers, userId string) {
+	users := s.Hub.ListConnectedUsers(userId)
+	conn.Send(&proto.ServerEvents{
+		Event: &proto.ServerEvents_Users{
+			Users: &proto.Users{
+				Users: users,
+			},
+		},
+	})
+}
+
+func (s *Server) handleUserDisconnect(userId string, userName string) {
+	s.Hub.UnRegister <- &userId
+	msg := &Message{
+		SenderId: userId,
+		Event: &proto.ServerEvents{
+			Event: &proto.ServerEvents_UserEvents{
+				UserEvents: &proto.UserEvents{
+					UserId: userId,
+					Events: proto.UserEvents_left,
+				},
+			},
+		},
+	}
+	s.Hub.Broadcast <- msg
 }

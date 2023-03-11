@@ -123,19 +123,24 @@ class JoinResponse extends $pb.GeneratedMessage {
 
 class ChatMessage extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChatMessage', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'senderName')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'text')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'text')
     ..hasRequiredFields = false
   ;
 
   ChatMessage._() : super();
   factory ChatMessage({
-    $core.String? senderName,
+    $core.String? userId,
+    $core.String? userName,
     $core.String? text,
   }) {
     final _result = create();
-    if (senderName != null) {
-      _result.senderName = senderName;
+    if (userId != null) {
+      _result.userId = userId;
+    }
+    if (userName != null) {
+      _result.userName = userName;
     }
     if (text != null) {
       _result.text = text;
@@ -164,22 +169,31 @@ class ChatMessage extends $pb.GeneratedMessage {
   static ChatMessage? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get senderName => $_getSZ(0);
+  $core.String get userId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set senderName($core.String v) { $_setString(0, v); }
+  set userId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasSenderName() => $_has(0);
+  $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSenderName() => clearField(1);
+  void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get text => $_getSZ(1);
+  $core.String get userName => $_getSZ(1);
   @$pb.TagNumber(2)
-  set text($core.String v) { $_setString(1, v); }
+  set userName($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasText() => $_has(1);
+  $core.bool hasUserName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearText() => clearField(2);
+  void clearUserName() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get text => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set text($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasText() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearText() => clearField(3);
 }
 
 class MessageUpdate extends $pb.GeneratedMessage {
@@ -231,7 +245,6 @@ class MessageUpdate extends $pb.GeneratedMessage {
 
 class MessageRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MessageRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
     ..aOM<ChatMessage>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message', subBuilder: ChatMessage.create)
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'requestId')
     ..hasRequiredFields = false
@@ -239,14 +252,10 @@ class MessageRequest extends $pb.GeneratedMessage {
 
   MessageRequest._() : super();
   factory MessageRequest({
-    $core.String? userId,
     ChatMessage? message,
     $core.String? requestId,
   }) {
     final _result = create();
-    if (userId != null) {
-      _result.userId = userId;
-    }
     if (message != null) {
       _result.message = message;
     }
@@ -276,32 +285,23 @@ class MessageRequest extends $pb.GeneratedMessage {
   static MessageRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MessageRequest>(create);
   static MessageRequest? _defaultInstance;
 
-  @$pb.TagNumber(2)
-  $core.String get userId => $_getSZ(0);
-  @$pb.TagNumber(2)
-  set userId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasUserId() => $_has(0);
-  @$pb.TagNumber(2)
-  void clearUserId() => clearField(2);
-
   @$pb.TagNumber(3)
-  ChatMessage get message => $_getN(1);
+  ChatMessage get message => $_getN(0);
   @$pb.TagNumber(3)
   set message(ChatMessage v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasMessage() => $_has(1);
+  $core.bool hasMessage() => $_has(0);
   @$pb.TagNumber(3)
   void clearMessage() => clearField(3);
   @$pb.TagNumber(3)
-  ChatMessage ensureMessage() => $_ensure(1);
+  ChatMessage ensureMessage() => $_ensure(0);
 
   @$pb.TagNumber(4)
-  $core.String get requestId => $_getSZ(2);
+  $core.String get requestId => $_getSZ(1);
   @$pb.TagNumber(4)
-  set requestId($core.String v) { $_setString(2, v); }
+  set requestId($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(4)
-  $core.bool hasRequestId() => $_has(2);
+  $core.bool hasRequestId() => $_has(1);
   @$pb.TagNumber(4)
   void clearRequestId() => clearField(4);
 }
@@ -473,6 +473,7 @@ class UserEvents extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UserEvents', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
     ..e<UserEvents_Events>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'events', $pb.PbFieldType.OE, defaultOrMaker: UserEvents_Events.joined, valueOf: UserEvents_Events.valueOf, enumValues: UserEvents_Events.values)
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
     ..hasRequiredFields = false
   ;
 
@@ -480,6 +481,7 @@ class UserEvents extends $pb.GeneratedMessage {
   factory UserEvents({
     $core.String? userId,
     UserEvents_Events? events,
+    $core.String? userName,
   }) {
     final _result = create();
     if (userId != null) {
@@ -487,6 +489,9 @@ class UserEvents extends $pb.GeneratedMessage {
     }
     if (events != null) {
       _result.events = events;
+    }
+    if (userName != null) {
+      _result.userName = userName;
     }
     return _result;
   }
@@ -528,6 +533,15 @@ class UserEvents extends $pb.GeneratedMessage {
   $core.bool hasEvents() => $_has(1);
   @$pb.TagNumber(2)
   void clearEvents() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get userName => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set userName($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasUserName() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearUserName() => clearField(3);
 }
 
 class TypingState extends $pb.GeneratedMessage {

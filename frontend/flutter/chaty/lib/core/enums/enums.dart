@@ -1,0 +1,4 @@
+enum Events {
+  joined,
+  leaved,
+}

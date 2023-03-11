@@ -4,6 +4,8 @@ import "chaty/grpc"
 
 func main() {
 	port := "8080"
-	server := grpc.NewServer()
+	hub := grpc.NewHub()
+	go hub.Run()
+	server := grpc.NewServer(hub)
 	server.Serve(port)
 }

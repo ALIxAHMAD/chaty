@@ -5,7 +5,7 @@ class UpdateTypingStateUseCase {
 
   UpdateTypingStateUseCase(this.repository);
 
-  void call(String id, bool isTyping) {
+  Future<void> call(String id, bool isTyping) {
     return repository.updateTypingState(id, isTyping);
   }
 }
