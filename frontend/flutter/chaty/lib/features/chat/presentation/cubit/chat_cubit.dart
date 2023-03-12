@@ -4,6 +4,7 @@ import 'package:chaty/features/chat/domain/repositories/repository.dart';
 import 'package:chaty/features/chat/domain/usecases/join.dart';
 import 'package:chaty/features/chat/domain/usecases/list_users.dart';
 import 'package:chaty/features/chat/domain/usecases/send_message.dart';
+import 'package:chaty/features/chat/domain/usecases/update_typing_state.dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,10 +18,12 @@ class ChatCubit extends Cubit<ChatState> {
   final JoinChatUseCase _joinChatUseCase;
   final ListUsersUseCase _listUsersUseCase;
   final SendMessageUseCase _sendMessageUseCase;
+  final UpdateTypingStateUseCase _updateTypingStateUseCase;
   final ChatRepository repository;
   ChatCubit({
     required this.repository,
   })  : _joinChatUseCase = JoinChatUseCase(repository),
+        _updateTypingStateUseCase = UpdateTypingStateUseCase(repository),
         _sendMessageUseCase = SendMessageUseCase(repository),
         _listUsersUseCase = ListUsersUseCase(repository),
         super(
@@ -53,6 +56,9 @@ class ChatCubit extends Cubit<ChatState> {
     repository.messageResponses.forEach((element) {
       handleMessageResponse(element);
     });
+    repository.typingStates.forEach((element) {
+      handelTypingState(element);
+    });
   }
 
   void listUsers() async {
@@ -60,13 +66,10 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void sendMessage(String content) async {
+    if (content == "") {
+      return;
+    }
     final id = randomId();
-    _sendMessageUseCase(
-      state.userName,
-      content,
-      id,
-      state.userId,
-    );
     addMessageToList(ChatMessage(
       isSent: false,
       content: content,
@@ -74,6 +77,12 @@ class ChatCubit extends Cubit<ChatState> {
       senderId: state.userId,
       id: id,
     ));
+    _sendMessageUseCase(
+      state.userName,
+      content,
+      id,
+      state.userId,
+    );
   }
 
   void addMessageToList(ChatMessage message) {
@@ -81,6 +90,19 @@ class ChatCubit extends Cubit<ChatState> {
       messages: state.messages.messages..add(message),
     );
     emit(state.copyWith(messages: messages));
+  }
+
+  void handelTypingState(TypingState typingState) {
+    int index = state.users.users.indexWhere(
+      (element) => element.id == typingState.userId,
+    );
+    final users = Users(users: state.users.users);
+    users.users[index] = User(
+      id: users.users[index].id,
+      userName: users.users[index].userName,
+      isTyping: typingState.isTyping,
+    );
+    emit(state.copyWith(users: users));
   }
 
   void handleMessageResponse(MessageResponse response) {
@@ -117,6 +139,10 @@ class ChatCubit extends Cubit<ChatState> {
         );
         emit(state.copyWith(users: users));
     }
+  }
+
+  void updateTypingState(bool isTyping) async {
+    return await _updateTypingStateUseCase(state.userId, isTyping);
   }
 }
 

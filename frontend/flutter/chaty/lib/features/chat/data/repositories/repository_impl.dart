@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:chaty/core/client/client.dart';
+import 'package:chaty/core/client/models/chat_user.dart';
 import 'package:chaty/features/chat/domain/entities/chat_message.dart';
 import 'package:chaty/features/chat/domain/entities/chat_user.dart';
 import 'package:chaty/features/chat/domain/repositories/repository.dart';
@@ -23,6 +24,8 @@ class ChatRepositoryImpl implements ChatRepository {
       StreamController<ChatMessage>();
   final StreamController<MessageResponse> _messageResponseController =
       StreamController<MessageResponse>();
+  final StreamController<TypingState> _typingStateController =
+      StreamController<TypingState>();
 
   ChatRepositoryImpl({
     required this.client,
@@ -66,6 +69,14 @@ class ChatRepositoryImpl implements ChatRepository {
           MessageResponse(
             isOk: element.messageResponse!.isOk,
             requestId: element.messageResponse!.requestId,
+          ),
+        );
+      }
+      if (element.typingState != null) {
+        _typingStateController.add(
+          TypingState(
+            isTyping: element.typingState!.isTyping,
+            userId: element.typingState!.userId,
           ),
         );
       }
@@ -120,20 +131,23 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  // TODO: implement typingStates
-  Stream<TypingState> get typingStates => throw UnimplementedError();
+  Stream<TypingState> get typingStates => _typingStateController.stream;
 
   @override
   Future<void> updateTypingState(String id, bool isTyping) async {
-    // TODO: implement updateTypingState
-    throw UnimplementedError();
+    clientEventsStreamController.add(
+      ClientEventsModel(
+        typingState: TypingStateModel(
+          isTyping: isTyping,
+          userId: id,
+        ),
+      ),
+    );
   }
 
   @override
-  // TODO: implement userEvents
   Stream<UserEvents> get userEvents => _usersEventsController.stream;
 
   @override
-  // TODO: implement users
   Stream<Users> get users => _usersController.stream;
 }

@@ -1,11 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cubit/chat_cubit.dart';
 
 class BottomTextBox extends StatelessWidget {
+  final FocusNode focusNode;
   const BottomTextBox({
     Key? key,
+    required this.focusNode,
     required this.controller,
   }) : super(key: key);
 
@@ -13,6 +16,7 @@ class BottomTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ChatCubit>(context);
     return Align(
       alignment: Alignment.bottomLeft,
       child: Container(
@@ -27,6 +31,7 @@ class BottomTextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
+                focusNode: focusNode,
                 controller: controller,
                 decoration: const InputDecoration(
                     hintText: "Write message...",
@@ -39,8 +44,7 @@ class BottomTextBox extends StatelessWidget {
             ),
             FloatingActionButton(
               onPressed: () {
-                BlocProvider.of<ChatCubit>(context)
-                    .sendMessage(controller.text);
+                cubit.sendMessage(controller.text);
                 controller.clear();
               },
               backgroundColor: Colors.blue,

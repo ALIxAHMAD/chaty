@@ -81,10 +81,12 @@ class MessageTile extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Icon(
-                    message.isSent ? Icons.check : Icons.access_time,
-                    size: 13,
-                  ),
+                  message.senderId == userId
+                      ? Icon(
+                          message.isSent ? Icons.check : Icons.access_time,
+                          size: 13,
+                        )
+                      : SizedBox()
                 ],
               ),
             ),

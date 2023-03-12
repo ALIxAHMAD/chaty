@@ -17,11 +17,16 @@ class RoomPage extends StatefulWidget {
 
 class _RoomPageState extends State<RoomPage> {
   late final ChatCubit cubit;
+  final FocusNode _focus = FocusNode();
   @override
   void initState() {
     super.initState();
     cubit = BlocProvider.of<ChatCubit>(context);
     cubit.listUsers();
+    _focus.addListener(() {
+      print(_focus.hasFocus.toString());
+      cubit.updateTypingState(_focus.hasFocus);
+    });
   }
 
   @override
@@ -36,6 +41,7 @@ class _RoomPageState extends State<RoomPage> {
         children: <Widget>[
           MessageList(),
           BottomTextBox(
+            focusNode: _focus,
             controller: messageTextController,
           ),
         ],

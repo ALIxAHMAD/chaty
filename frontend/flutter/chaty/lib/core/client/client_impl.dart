@@ -117,6 +117,13 @@ class ChatClientImpl implements ChatClient {
           ),
         ));
       }
+      if (element.hasTypingState()) {
+        result.add(ServerEventsModel(
+            typingState: TypingStateModel(
+          isTyping: element.typingState.isTyping,
+          userId: element.typingState.userId,
+        )));
+      }
     });
     return result.stream;
   }
