@@ -6,6 +6,8 @@ import 'package:chaty/features/chat/domain/entities/chat_message.dart';
 import 'package:chaty/features/chat/domain/entities/chat_user.dart';
 import 'package:chaty/features/chat/domain/repositories/repository.dart';
 
+import '../../../../core/client/models/chat_message.dart';
+
 class ChatRepositoryImpl implements ChatRepository {
   final ChatClient client;
 
@@ -17,6 +19,10 @@ class ChatRepositoryImpl implements ChatRepository {
   final StreamController<Users> _usersController = StreamController<Users>();
   final StreamController<UserEvents> _usersEventsController =
       StreamController<UserEvents>();
+  final StreamController<ChatMessage> _chatMessageController =
+      StreamController<ChatMessage>();
+  final StreamController<MessageResponse> _messageResponseController =
+      StreamController<MessageResponse>();
 
   ChatRepositoryImpl({
     required this.client,
@@ -44,6 +50,25 @@ class ChatRepositoryImpl implements ChatRepository {
           events: element.usersEvents!.events,
         ));
       }
+      if (element.chatMessage != null) {
+        _chatMessageController.add(
+          ChatMessage(
+            isSent: true,
+            id: element.chatMessage!.id,
+            senderId: element.chatMessage!.senderId,
+            senderName: element.chatMessage!.senderName,
+            content: element.chatMessage!.content,
+          ),
+        );
+      }
+      if (element.messageResponse != null) {
+        _messageResponseController.add(
+          MessageResponse(
+            isOk: element.messageResponse!.isOk,
+            requestId: element.messageResponse!.requestId,
+          ),
+        );
+      }
     });
   }
 
@@ -69,21 +94,29 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  // TODO: implement messageResponses
-  Stream<MessageResponse> get messageResponses => throw UnimplementedError();
+  Stream<MessageResponse> get messageResponses =>
+      _messageResponseController.stream;
 
   @override
   // TODO: implement messageUpdates
   Stream<MessageUpdate> get messageUpdates => throw UnimplementedError();
 
   @override
-  // TODO: implement messages
-  Stream<ChatMessage> get messages => throw UnimplementedError();
+  Stream<ChatMessage> get messages => _chatMessageController.stream;
 
   @override
   Future<void> sendMessage(
       String userName, String content, String requestId, String userId) async {
-    // TODO: implement sendMessage
+    clientEventsStreamController.add(
+      ClientEventsModel(
+        messageRequest: ChatMessageModel(
+          id: requestId,
+          senderName: userName,
+          content: content,
+          senderId: userId,
+        ),
+      ),
+    );
   }
 
   @override

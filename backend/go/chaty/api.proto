@@ -13,13 +13,14 @@ message ChatMessage {
     string user_id = 1;
     string user_name = 2;
     string text = 3;
+    string id = 4;
 }
 message MessageUpdate {
     bool is_read = 1;
 }
-message MessageRequest {
-    ChatMessage message = 3;
-    string request_id = 4;
+message ReadMessage{
+    string id = 1;
+    string messageId = 2;
 }
 message MessageResponse {
     bool is_ok = 1;
@@ -51,9 +52,10 @@ message ListUsers {
 message ClientEvents {
     oneof event {
         JoinRequest joinRequest = 1;
-        MessageRequest messageRequest = 2;
+        ChatMessage chatMessage = 2;
         TypingState typing_State = 3;
         ListUsers list_users = 4;
+        ReadMessage readMessage = 5;
     }
 }
 message ServerEvents {

@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:chaty/features/chat/domain/repositories/repository.dart';
 import 'package:chaty/features/chat/domain/usecases/join.dart';
 import 'package:chaty/features/chat/domain/usecases/list_users.dart';
+import 'package:chaty/features/chat/domain/usecases/send_message.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,10 +16,12 @@ part 'chat_state.dart';
 class ChatCubit extends Cubit<ChatState> {
   final JoinChatUseCase _joinChatUseCase;
   final ListUsersUseCase _listUsersUseCase;
+  final SendMessageUseCase _sendMessageUseCase;
   final ChatRepository repository;
   ChatCubit({
     required this.repository,
   })  : _joinChatUseCase = JoinChatUseCase(repository),
+        _sendMessageUseCase = SendMessageUseCase(repository),
         _listUsersUseCase = ListUsersUseCase(repository),
         super(
           ChatState.initial(),
@@ -42,10 +47,56 @@ class ChatCubit extends Cubit<ChatState> {
     repository.userEvents.forEach((element) {
       handleUserEvent(element);
     });
+    repository.messages.forEach((element) {
+      addMessageToList(element);
+    });
+    repository.messageResponses.forEach((element) {
+      handleMessageResponse(element);
+    });
   }
 
   void listUsers() async {
-    return await _listUsersUseCase(state.userId);
+    await _listUsersUseCase(state.userId);
+  }
+
+  void sendMessage(String content) async {
+    final id = randomId();
+    _sendMessageUseCase(
+      state.userName,
+      content,
+      id,
+      state.userId,
+    );
+    addMessageToList(ChatMessage(
+      isSent: false,
+      content: content,
+      senderName: state.userName,
+      senderId: state.userId,
+      id: id,
+    ));
+  }
+
+  void addMessageToList(ChatMessage message) {
+    final messages = ChatMessages(
+      messages: state.messages.messages..add(message),
+    );
+    emit(state.copyWith(messages: messages));
+  }
+
+  void handleMessageResponse(MessageResponse response) {
+    if (response.isOk) {
+      int index = state.messages.messages
+          .indexWhere((element) => element.id == response.requestId);
+      final messages = ChatMessages(messages: state.messages.messages);
+      messages.messages[index] = ChatMessage(
+        content: messages.messages[index].content,
+        id: messages.messages[index].id,
+        senderId: messages.messages[index].senderId,
+        senderName: messages.messages[index].senderName,
+        isSent: true,
+      );
+      emit(state.copyWith(messages: messages));
+    }
   }
 
   void handleUserEvent(UserEvents event) {
@@ -67,4 +118,8 @@ class ChatCubit extends Cubit<ChatState> {
         emit(state.copyWith(users: users));
     }
   }
+}
+
+String randomId() {
+  return Random().nextInt(1000000).toString();
 }

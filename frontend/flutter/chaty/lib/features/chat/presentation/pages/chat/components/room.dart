@@ -1,8 +1,10 @@
+import 'package:chaty/features/chat/presentation/pages/chat/components/messaages_list.dart';
 import 'package:chaty/features/chat/presentation/pages/chat/components/users.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cubit/chat_cubit.dart';
+import 'bottom_text_box.dart';
 
 class RoomPage extends StatefulWidget {
   const RoomPage({
@@ -24,9 +26,20 @@ class _RoomPageState extends State<RoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController messageTextController = TextEditingController();
     return Scaffold(
       drawer: const UsersDrawer(),
-      body: Text(cubit.state.userId),
+      appBar: AppBar(
+        title: const Text("Chat Room"),
+      ),
+      body: Stack(
+        children: <Widget>[
+          MessageList(),
+          BottomTextBox(
+            controller: messageTextController,
+          ),
+        ],
+      ),
     );
   }
 }

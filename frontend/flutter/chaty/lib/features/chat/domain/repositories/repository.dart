@@ -28,7 +28,7 @@ abstract class ChatRepository {
     String userId,
   );
   Future<void> updateTypingState(
-    String id,
+    String userId,
     bool isTyping,
   );
   Future<void> listUsers(String userId);

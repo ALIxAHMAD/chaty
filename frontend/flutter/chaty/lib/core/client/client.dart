@@ -10,7 +10,7 @@ abstract class ChatClient {
 
 class ClientEventsModel {
   final String? joinRequest;
-  final MessageRequestModel? messageRequest;
+  final ChatMessageModel? messageRequest;
   final TypingStateModel? typingState;
   final String? listUsers;
   ClientEventsModel({

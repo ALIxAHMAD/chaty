@@ -36,11 +36,12 @@ const ChatMessage$json = const {
     const {'1': 'user_id', '3': 1, '4': 1, '5': 9, '10': 'userId'},
     const {'1': 'user_name', '3': 2, '4': 1, '5': 9, '10': 'userName'},
     const {'1': 'text', '3': 3, '4': 1, '5': 9, '10': 'text'},
+    const {'1': 'id', '3': 4, '4': 1, '5': 9, '10': 'id'},
   ],
 };
 
 /// Descriptor for `ChatMessage`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List chatMessageDescriptor = $convert.base64Decode('CgtDaGF0TWVzc2FnZRIXCgd1c2VyX2lkGAEgASgJUgZ1c2VySWQSGwoJdXNlcl9uYW1lGAIgASgJUgh1c2VyTmFtZRISCgR0ZXh0GAMgASgJUgR0ZXh0');
+final $typed_data.Uint8List chatMessageDescriptor = $convert.base64Decode('CgtDaGF0TWVzc2FnZRIXCgd1c2VyX2lkGAEgASgJUgZ1c2VySWQSGwoJdXNlcl9uYW1lGAIgASgJUgh1c2VyTmFtZRISCgR0ZXh0GAMgASgJUgR0ZXh0Eg4KAmlkGAQgASgJUgJpZA==');
 @$core.Deprecated('Use messageUpdateDescriptor instead')
 const MessageUpdate$json = const {
   '1': 'MessageUpdate',
@@ -51,17 +52,17 @@ const MessageUpdate$json = const {
 
 /// Descriptor for `MessageUpdate`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List messageUpdateDescriptor = $convert.base64Decode('Cg1NZXNzYWdlVXBkYXRlEhcKB2lzX3JlYWQYASABKAhSBmlzUmVhZA==');
-@$core.Deprecated('Use messageRequestDescriptor instead')
-const MessageRequest$json = const {
-  '1': 'MessageRequest',
+@$core.Deprecated('Use readMessageDescriptor instead')
+const ReadMessage$json = const {
+  '1': 'ReadMessage',
   '2': const [
-    const {'1': 'message', '3': 3, '4': 1, '5': 11, '6': '.chaty.ChatMessage', '10': 'message'},
-    const {'1': 'request_id', '3': 4, '4': 1, '5': 9, '10': 'requestId'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'messageId', '3': 2, '4': 1, '5': 9, '10': 'messageId'},
   ],
 };
 
-/// Descriptor for `MessageRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List messageRequestDescriptor = $convert.base64Decode('Cg5NZXNzYWdlUmVxdWVzdBIsCgdtZXNzYWdlGAMgASgLMhIuY2hhdHkuQ2hhdE1lc3NhZ2VSB21lc3NhZ2USHQoKcmVxdWVzdF9pZBgEIAEoCVIJcmVxdWVzdElk');
+/// Descriptor for `ReadMessage`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List readMessageDescriptor = $convert.base64Decode('CgtSZWFkTWVzc2FnZRIOCgJpZBgBIAEoCVICaWQSHAoJbWVzc2FnZUlkGAIgASgJUgltZXNzYWdlSWQ=');
 @$core.Deprecated('Use messageResponseDescriptor instead')
 const MessageResponse$json = const {
   '1': 'MessageResponse',
@@ -142,9 +143,10 @@ const ClientEvents$json = const {
   '1': 'ClientEvents',
   '2': const [
     const {'1': 'joinRequest', '3': 1, '4': 1, '5': 11, '6': '.chaty.JoinRequest', '9': 0, '10': 'joinRequest'},
-    const {'1': 'messageRequest', '3': 2, '4': 1, '5': 11, '6': '.chaty.MessageRequest', '9': 0, '10': 'messageRequest'},
+    const {'1': 'chatMessage', '3': 2, '4': 1, '5': 11, '6': '.chaty.ChatMessage', '9': 0, '10': 'chatMessage'},
     const {'1': 'typing_State', '3': 3, '4': 1, '5': 11, '6': '.chaty.TypingState', '9': 0, '10': 'typingState'},
     const {'1': 'list_users', '3': 4, '4': 1, '5': 11, '6': '.chaty.ListUsers', '9': 0, '10': 'listUsers'},
+    const {'1': 'readMessage', '3': 5, '4': 1, '5': 11, '6': '.chaty.ReadMessage', '9': 0, '10': 'readMessage'},
   ],
   '8': const [
     const {'1': 'event'},
@@ -152,7 +154,7 @@ const ClientEvents$json = const {
 };
 
 /// Descriptor for `ClientEvents`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List clientEventsDescriptor = $convert.base64Decode('CgxDbGllbnRFdmVudHMSNgoLam9pblJlcXVlc3QYASABKAsyEi5jaGF0eS5Kb2luUmVxdWVzdEgAUgtqb2luUmVxdWVzdBI/Cg5tZXNzYWdlUmVxdWVzdBgCIAEoCzIVLmNoYXR5Lk1lc3NhZ2VSZXF1ZXN0SABSDm1lc3NhZ2VSZXF1ZXN0EjcKDHR5cGluZ19TdGF0ZRgDIAEoCzISLmNoYXR5LlR5cGluZ1N0YXRlSABSC3R5cGluZ1N0YXRlEjEKCmxpc3RfdXNlcnMYBCABKAsyEC5jaGF0eS5MaXN0VXNlcnNIAFIJbGlzdFVzZXJzQgcKBWV2ZW50');
+final $typed_data.Uint8List clientEventsDescriptor = $convert.base64Decode('CgxDbGllbnRFdmVudHMSNgoLam9pblJlcXVlc3QYASABKAsyEi5jaGF0eS5Kb2luUmVxdWVzdEgAUgtqb2luUmVxdWVzdBI2CgtjaGF0TWVzc2FnZRgCIAEoCzISLmNoYXR5LkNoYXRNZXNzYWdlSABSC2NoYXRNZXNzYWdlEjcKDHR5cGluZ19TdGF0ZRgDIAEoCzISLmNoYXR5LlR5cGluZ1N0YXRlSABSC3R5cGluZ1N0YXRlEjEKCmxpc3RfdXNlcnMYBCABKAsyEC5jaGF0eS5MaXN0VXNlcnNIAFIJbGlzdFVzZXJzEjYKC3JlYWRNZXNzYWdlGAUgASgLMhIuY2hhdHkuUmVhZE1lc3NhZ2VIAFILcmVhZE1lc3NhZ2VCBwoFZXZlbnQ=');
 @$core.Deprecated('Use serverEventsDescriptor instead')
 const ServerEvents$json = const {
   '1': 'ServerEvents',

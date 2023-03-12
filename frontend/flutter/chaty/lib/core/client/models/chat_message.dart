@@ -2,22 +2,15 @@
 import 'package:chaty/features/chat/domain/entities/chat_message.dart';
 
 class ChatMessageModel {
+  final String id;
+  final String senderId;
   final String senderName;
   final String content;
   ChatMessageModel({
+    required this.id,
+    required this.senderId,
     required this.senderName,
     required this.content,
-  });
-}
-
-class MessageRequestModel {
-  final String userId;
-  final ChatMessageModel message;
-  final String requestId;
-  MessageRequestModel({
-    required this.userId,
-    required this.message,
-    required this.requestId,
   });
 }
 

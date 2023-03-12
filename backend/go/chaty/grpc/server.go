@@ -53,7 +53,7 @@ func (s *Server) Connect(conn proto.ChatService_ConnectServer) error {
 			s.handleJoinRequest(conn, req, client)
 		case *proto.ClientEvents_ListUsers:
 			s.handleListUsers(conn, req, userId)
-		case *proto.ClientEvents_MessageRequest:
+		case *proto.ClientEvents_ChatMessage:
 			s.handleMessageRequest(conn, req, userId)
 		case *proto.ClientEvents_Typing_State:
 			s.handleUpdateTypingState(conn, req, userId)
@@ -91,15 +91,16 @@ func (s *Server) handleJoinRequest(conn proto.ChatService_ConnectServer, req *pr
 	s.Hub.Broadcast <- msg
 }
 
-func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_MessageRequest, userId string) {
+func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_ChatMessage, userId string) {
 	msg := &Message{
 		SenderId: userId,
 		Event: &proto.ServerEvents{
 			Event: &proto.ServerEvents_ChatMessage{
 				ChatMessage: &proto.ChatMessage{
-					UserId:   req.MessageRequest.Message.UserId,
-					UserName: req.MessageRequest.Message.UserName,
-					Text:     req.MessageRequest.Message.Text,
+					UserId:   req.ChatMessage.UserId,
+					UserName: req.ChatMessage.UserName,
+					Text:     req.ChatMessage.Text,
+					Id:       req.ChatMessage.Id,
 				},
 			},
 		},
@@ -109,7 +110,7 @@ func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req 
 		Event: &proto.ServerEvents_MessageResponse{
 			MessageResponse: &proto.MessageResponse{
 				IsOk:      true,
-				RequestId: req.MessageRequest.RequestId,
+				RequestId: req.ChatMessage.Id,
 			},
 		},
 	})

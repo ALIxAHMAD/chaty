@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:chaty/core/client/grpc/api.pbgrpc.dart';
+import 'package:chaty/core/client/models/chat_message.dart';
 import 'package:chaty/core/client/models/chat_user.dart';
 import 'package:chaty/core/enums/enums.dart';
 
@@ -26,14 +27,12 @@ class ChatClientImpl implements ChatClient {
           }
           if (event.messageRequest != null) {
             return ClientEvents(
-              messageRequest: MessageRequest(
-                message: ChatMessage(
-                  userName: event.messageRequest?.message.senderName,
-                  text: event.messageRequest?.message.content,
-                ),
-                requestId: event.messageRequest?.requestId,
-              ),
-            );
+                chatMessage: ChatMessage(
+              id: event.messageRequest!.id,
+              text: event.messageRequest!.content,
+              userId: event.messageRequest!.senderId,
+              userName: event.messageRequest!.senderName,
+            ));
           }
           if (event.typingState != null) {
             return ClientEvents(
@@ -95,6 +94,26 @@ class ChatClientImpl implements ChatClient {
             userName: element.userEvents.userName,
             userId: element.userEvents.userId,
             events: event,
+          ),
+        ));
+      }
+      if (element.hasChatMessage()) {
+        result.add(
+          ServerEventsModel(
+            chatMessage: ChatMessageModel(
+              content: element.chatMessage.text,
+              id: element.chatMessage.id,
+              senderId: element.chatMessage.userId,
+              senderName: element.chatMessage.userName,
+            ),
+          ),
+        );
+      }
+      if (element.hasMessageResponse()) {
+        result.add(ServerEventsModel(
+          messageResponse: MessageResponseModel(
+            isOk: element.messageResponse.isOk,
+            requestId: element.messageResponse.requestId,
           ),
         ));
       }

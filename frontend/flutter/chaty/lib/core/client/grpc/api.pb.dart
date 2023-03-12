@@ -126,6 +126,7 @@ class ChatMessage extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'text')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..hasRequiredFields = false
   ;
 
@@ -134,6 +135,7 @@ class ChatMessage extends $pb.GeneratedMessage {
     $core.String? userId,
     $core.String? userName,
     $core.String? text,
+    $core.String? id,
   }) {
     final _result = create();
     if (userId != null) {
@@ -144,6 +146,9 @@ class ChatMessage extends $pb.GeneratedMessage {
     }
     if (text != null) {
       _result.text = text;
+    }
+    if (id != null) {
+      _result.id = id;
     }
     return _result;
   }
@@ -194,6 +199,15 @@ class ChatMessage extends $pb.GeneratedMessage {
   $core.bool hasText() => $_has(2);
   @$pb.TagNumber(3)
   void clearText() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get id => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set id($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearId() => clearField(4);
 }
 
 class MessageUpdate extends $pb.GeneratedMessage {
@@ -243,67 +257,65 @@ class MessageUpdate extends $pb.GeneratedMessage {
   void clearIsRead() => clearField(1);
 }
 
-class MessageRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MessageRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOM<ChatMessage>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message', subBuilder: ChatMessage.create)
-    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'requestId')
+class ReadMessage extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ReadMessage', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageId', protoName: 'messageId')
     ..hasRequiredFields = false
   ;
 
-  MessageRequest._() : super();
-  factory MessageRequest({
-    ChatMessage? message,
-    $core.String? requestId,
+  ReadMessage._() : super();
+  factory ReadMessage({
+    $core.String? id,
+    $core.String? messageId,
   }) {
     final _result = create();
-    if (message != null) {
-      _result.message = message;
+    if (id != null) {
+      _result.id = id;
     }
-    if (requestId != null) {
-      _result.requestId = requestId;
+    if (messageId != null) {
+      _result.messageId = messageId;
     }
     return _result;
   }
-  factory MessageRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MessageRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory ReadMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ReadMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  MessageRequest clone() => MessageRequest()..mergeFromMessage(this);
+  ReadMessage clone() => ReadMessage()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  MessageRequest copyWith(void Function(MessageRequest) updates) => super.copyWith((message) => updates(message as MessageRequest)) as MessageRequest; // ignore: deprecated_member_use
+  ReadMessage copyWith(void Function(ReadMessage) updates) => super.copyWith((message) => updates(message as ReadMessage)) as ReadMessage; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static MessageRequest create() => MessageRequest._();
-  MessageRequest createEmptyInstance() => create();
-  static $pb.PbList<MessageRequest> createRepeated() => $pb.PbList<MessageRequest>();
+  static ReadMessage create() => ReadMessage._();
+  ReadMessage createEmptyInstance() => create();
+  static $pb.PbList<ReadMessage> createRepeated() => $pb.PbList<ReadMessage>();
   @$core.pragma('dart2js:noInline')
-  static MessageRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MessageRequest>(create);
-  static MessageRequest? _defaultInstance;
+  static ReadMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReadMessage>(create);
+  static ReadMessage? _defaultInstance;
 
-  @$pb.TagNumber(3)
-  ChatMessage get message => $_getN(0);
-  @$pb.TagNumber(3)
-  set message(ChatMessage v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasMessage() => $_has(0);
-  @$pb.TagNumber(3)
-  void clearMessage() => clearField(3);
-  @$pb.TagNumber(3)
-  ChatMessage ensureMessage() => $_ensure(0);
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
 
-  @$pb.TagNumber(4)
-  $core.String get requestId => $_getSZ(1);
-  @$pb.TagNumber(4)
-  set requestId($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasRequestId() => $_has(1);
-  @$pb.TagNumber(4)
-  void clearRequestId() => clearField(4);
+  @$pb.TagNumber(2)
+  $core.String get messageId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set messageId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMessageId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMessageId() => clearField(2);
 }
 
 class MessageResponse extends $pb.GeneratedMessage {
@@ -654,48 +666,55 @@ class ListUsers extends $pb.GeneratedMessage {
 
 enum ClientEvents_Event {
   joinRequest, 
-  messageRequest, 
+  chatMessage, 
   typingState, 
   listUsers, 
+  readMessage, 
   notSet
 }
 
 class ClientEvents extends $pb.GeneratedMessage {
   static const $core.Map<$core.int, ClientEvents_Event> _ClientEvents_EventByTag = {
     1 : ClientEvents_Event.joinRequest,
-    2 : ClientEvents_Event.messageRequest,
+    2 : ClientEvents_Event.chatMessage,
     3 : ClientEvents_Event.typingState,
     4 : ClientEvents_Event.listUsers,
+    5 : ClientEvents_Event.readMessage,
     0 : ClientEvents_Event.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ClientEvents', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..oo(0, [1, 2, 3, 4])
+    ..oo(0, [1, 2, 3, 4, 5])
     ..aOM<JoinRequest>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'joinRequest', protoName: 'joinRequest', subBuilder: JoinRequest.create)
-    ..aOM<MessageRequest>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageRequest', protoName: 'messageRequest', subBuilder: MessageRequest.create)
+    ..aOM<ChatMessage>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'chatMessage', protoName: 'chatMessage', subBuilder: ChatMessage.create)
     ..aOM<TypingState>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typingState', protoName: 'typing_State', subBuilder: TypingState.create)
     ..aOM<ListUsers>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'listUsers', subBuilder: ListUsers.create)
+    ..aOM<ReadMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'readMessage', protoName: 'readMessage', subBuilder: ReadMessage.create)
     ..hasRequiredFields = false
   ;
 
   ClientEvents._() : super();
   factory ClientEvents({
     JoinRequest? joinRequest,
-    MessageRequest? messageRequest,
+    ChatMessage? chatMessage,
     TypingState? typingState,
     ListUsers? listUsers,
+    ReadMessage? readMessage,
   }) {
     final _result = create();
     if (joinRequest != null) {
       _result.joinRequest = joinRequest;
     }
-    if (messageRequest != null) {
-      _result.messageRequest = messageRequest;
+    if (chatMessage != null) {
+      _result.chatMessage = chatMessage;
     }
     if (typingState != null) {
       _result.typingState = typingState;
     }
     if (listUsers != null) {
       _result.listUsers = listUsers;
+    }
+    if (readMessage != null) {
+      _result.readMessage = readMessage;
     }
     return _result;
   }
@@ -735,15 +754,15 @@ class ClientEvents extends $pb.GeneratedMessage {
   JoinRequest ensureJoinRequest() => $_ensure(0);
 
   @$pb.TagNumber(2)
-  MessageRequest get messageRequest => $_getN(1);
+  ChatMessage get chatMessage => $_getN(1);
   @$pb.TagNumber(2)
-  set messageRequest(MessageRequest v) { setField(2, v); }
+  set chatMessage(ChatMessage v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasMessageRequest() => $_has(1);
+  $core.bool hasChatMessage() => $_has(1);
   @$pb.TagNumber(2)
-  void clearMessageRequest() => clearField(2);
+  void clearChatMessage() => clearField(2);
   @$pb.TagNumber(2)
-  MessageRequest ensureMessageRequest() => $_ensure(1);
+  ChatMessage ensureChatMessage() => $_ensure(1);
 
   @$pb.TagNumber(3)
   TypingState get typingState => $_getN(2);
@@ -766,6 +785,17 @@ class ClientEvents extends $pb.GeneratedMessage {
   void clearListUsers() => clearField(4);
   @$pb.TagNumber(4)
   ListUsers ensureListUsers() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  ReadMessage get readMessage => $_getN(4);
+  @$pb.TagNumber(5)
+  set readMessage(ReadMessage v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasReadMessage() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearReadMessage() => clearField(5);
+  @$pb.TagNumber(5)
+  ReadMessage ensureReadMessage() => $_ensure(4);
 }
 
 enum ServerEvents_Event {
