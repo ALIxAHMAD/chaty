@@ -1,6 +1,13 @@
 import 'dart:math';
 
 import 'package:chaty/features/chat/domain/repositories/repository.dart';
+import 'package:chaty/features/chat/domain/usecases/connect.dart';
+import 'package:chaty/features/chat/domain/usecases/get_join_responses.dart';
+import 'package:chaty/features/chat/domain/usecases/get_message_responses.dart';
+import 'package:chaty/features/chat/domain/usecases/get_messages.dart';
+import 'package:chaty/features/chat/domain/usecases/get_typing_states.dart';
+import 'package:chaty/features/chat/domain/usecases/get_user_events.dart';
+import 'package:chaty/features/chat/domain/usecases/get_users.dart';
 import 'package:chaty/features/chat/domain/usecases/join.dart';
 import 'package:chaty/features/chat/domain/usecases/list_users.dart';
 import 'package:chaty/features/chat/domain/usecases/send_message.dart';
@@ -19,13 +26,26 @@ class ChatCubit extends Cubit<ChatState> {
   final ListUsersUseCase _listUsersUseCase;
   final SendMessageUseCase _sendMessageUseCase;
   final UpdateTypingStateUseCase _updateTypingStateUseCase;
-  final ChatRepository repository;
+  final ConnectUseCase _connectUseCase;
+  final GetJoinResponsesUseCase _getJoinResponsesUseCase;
+  final GetUsersUseCase _getUsersUseCase;
+  final GetUserEventsUseCase _getUserEventsUseCase;
+  final GetMessagesUseCase _getMessagesUseCase;
+  final GetMessageResponsesUseCase _getMessageResponsesUseCase;
+  final GetTypingStatesUseCase _getTypingStatesUseCase;
   ChatCubit({
-    required this.repository,
+    required ChatRepository repository,
   })  : _joinChatUseCase = JoinChatUseCase(repository),
         _updateTypingStateUseCase = UpdateTypingStateUseCase(repository),
         _sendMessageUseCase = SendMessageUseCase(repository),
         _listUsersUseCase = ListUsersUseCase(repository),
+        _connectUseCase = ConnectUseCase(repository),
+        _getJoinResponsesUseCase = GetJoinResponsesUseCase(repository),
+        _getUsersUseCase = GetUsersUseCase(repository),
+        _getUserEventsUseCase = GetUserEventsUseCase(repository),
+        _getMessagesUseCase = GetMessagesUseCase(repository),
+        _getMessageResponsesUseCase = GetMessageResponsesUseCase(repository),
+        _getTypingStatesUseCase = GetTypingStatesUseCase(repository),
         super(
           ChatState.initial(),
         );
@@ -35,28 +55,28 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void connect() {
-    repository.connect();
-    repository.joinResponse.forEach((element) {
+    _connectUseCase();
+    _getJoinResponsesUseCase().forEach((element) {
       emit(state.copyWith(
         userId: element.userId,
         userName: element.userName,
       ));
     });
-    repository.users.forEach((element) {
+    _getUsersUseCase().forEach((element) {
       emit(
         state.copyWith(users: element),
       );
     });
-    repository.userEvents.forEach((element) {
+    _getUserEventsUseCase().forEach((element) {
       handleUserEvent(element);
     });
-    repository.messages.forEach((element) {
+    _getMessagesUseCase().forEach((element) {
       addMessageToList(element);
     });
-    repository.messageResponses.forEach((element) {
+    _getMessageResponsesUseCase().forEach((element) {
       handleMessageResponse(element);
     });
-    repository.typingStates.forEach((element) {
+    _getTypingStatesUseCase().forEach((element) {
       handelTypingState(element);
     });
   }
