@@ -24,7 +24,6 @@ class _RoomPageState extends State<RoomPage> {
     cubit = BlocProvider.of<ChatCubit>(context);
     cubit.listUsers();
     _focus.addListener(() {
-      print(_focus.hasFocus.toString());
       cubit.updateTypingState(_focus.hasFocus);
     });
   }
@@ -39,7 +38,7 @@ class _RoomPageState extends State<RoomPage> {
       ),
       body: Stack(
         children: <Widget>[
-          MessageList(),
+          const MessageList(),
           BottomTextBox(
             focusNode: _focus,
             controller: messageTextController,

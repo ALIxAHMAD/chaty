@@ -45,53 +45,59 @@ class MessageTile extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 14,
         right: 14,
-        top: 10,
-        bottom: 10,
+        top: 5,
+        bottom: 5,
       ),
-      child: Align(
-        alignment: (message.senderId != userId
-            ? Alignment.topLeft
-            : Alignment.topRight),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 3, bottom: 2),
-              child: Text(
-                message.senderId != userId ? message.senderName : "",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: (message.senderId != userId
-                    ? Colors.grey.shade200
-                    : Colors.blue[200]),
-              ),
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    message.content,
-                    style: const TextStyle(fontSize: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          message.senderId != userId
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 3, bottom: 2),
+                  child: Text(
+                    message.senderName,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 11),
                   ),
-                  const SizedBox(
-                    height: 5,
+                )
+              : const SizedBox(),
+          Align(
+            alignment: (message.senderId != userId
+                ? Alignment.topLeft
+                : Alignment.topRight),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: (message.senderId != userId
+                        ? Colors.grey.shade200
+                        : Colors.blue[200]),
                   ),
-                  message.senderId == userId
-                      ? Icon(
-                          message.isSent ? Icons.check : Icons.access_time,
-                          size: 13,
-                        )
-                      : SizedBox()
-                ],
-              ),
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Text(
+                        message.content,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                ),
+                message.senderId == userId
+                    ? Icon(
+                        message.isSent ? Icons.check : Icons.access_time,
+                        size: 11,
+                      )
+                    : const SizedBox()
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

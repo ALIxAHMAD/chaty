@@ -18,6 +18,7 @@ class ChatClientImpl implements ChatClient {
   Future<Stream<ServerEventsModel>> connect(
       Stream<ClientEventsModel> clientEventsModel) async {
     final response = client.connect(
+      // Mapping models to grpc
       clientEventsModel.asyncMap(
         (event) {
           if (event.joinRequest != null) {
@@ -56,6 +57,7 @@ class ChatClientImpl implements ChatClient {
     );
     final result = StreamController<ServerEventsModel>();
     response.forEach((element) {
+      // Mapping grpc to model
       if (element.hasJoinResponse()) {
         result.add(ServerEventsModel(
           joinResponse: JoinResponseModel(

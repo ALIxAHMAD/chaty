@@ -78,7 +78,7 @@ class UserTile extends StatelessWidget {
             trailing: user.isTyping
                 ? const Text(
                     "typing ...",
-                    style: TextStyle(color: Colors.blueGrey),
+                    style: TextStyle(color: Colors.red),
                   )
                 : null),
         const Divider(),

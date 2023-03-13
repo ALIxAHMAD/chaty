@@ -11,7 +11,6 @@ import '../../../../core/client/models/chat_message.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatClient client;
-
   final StreamController<ClientEventsModel> clientEventsStreamController =
       StreamController<ClientEventsModel>();
 
@@ -109,10 +108,6 @@ class ChatRepositoryImpl implements ChatRepository {
       _messageResponseController.stream;
 
   @override
-  // TODO: implement messageUpdates
-  Stream<MessageUpdate> get messageUpdates => throw UnimplementedError();
-
-  @override
   Stream<ChatMessage> get messages => _chatMessageController.stream;
 
   @override
@@ -150,4 +145,8 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Stream<Users> get users => _usersController.stream;
+
+  @override
+  // TODO: implement messageUpdates
+  Stream<MessageUpdate> get messageUpdates => throw UnimplementedError();
 }

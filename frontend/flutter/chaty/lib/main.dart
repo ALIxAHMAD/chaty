@@ -1,4 +1,3 @@
-import 'package:chaty/core/client/client.dart';
 import 'package:chaty/core/client/grpc/api.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
