@@ -68,16 +68,17 @@ class ChatClientImpl implements ChatClient {
       }
       if (element.hasUsers()) {
         result.add(ServerEventsModel(
-            users: UsersModel(
-          users: element.users.users
-              .map(
-                (e) => UserModel(
-                  userName: e.userName,
-                  id: e.userId,
-                ),
-              )
-              .toList(),
-        )));
+          users: UsersModel(
+            users: element.users.users
+                .map(
+                  (e) => UserModel(
+                    userName: e.userName,
+                    id: e.userId,
+                  ),
+                )
+                .toList(),
+          ),
+        ));
       }
       if (element.hasUserEvents()) {
         final Events event;
@@ -89,7 +90,7 @@ class ChatClientImpl implements ChatClient {
             event = Events.leaved;
             break;
           default:
-            event = Events.leaved;
+            return;
         }
         result.add(ServerEventsModel(
           usersEvents: UserEventsModel(

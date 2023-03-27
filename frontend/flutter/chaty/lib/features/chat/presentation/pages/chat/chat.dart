@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/repository.dart';
 import '../../cubit/chat_cubit.dart';
-import 'components/join.dart';
+import 'join.dart';
 import 'components/room.dart';
 
 class ChatPage extends StatefulWidget {

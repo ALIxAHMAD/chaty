@@ -56,16 +56,12 @@ class ChatCubit extends Cubit<ChatState> {
 
   void connect() {
     _connectUseCase();
+
     _getJoinResponsesUseCase().forEach((element) {
-      emit(state.copyWith(
-        userId: element.userId,
-        userName: element.userName,
-      ));
+      handleJoinResponse(element);
     });
     _getUsersUseCase().forEach((element) {
-      emit(
-        state.copyWith(users: element),
-      );
+      handleUsersListResponse(element);
     });
     _getUserEventsUseCase().forEach((element) {
       handleUserEvent(element);
@@ -159,6 +155,19 @@ class ChatCubit extends Cubit<ChatState> {
         );
         emit(state.copyWith(users: users));
     }
+  }
+
+  void handleJoinResponse(JoinResponse response) {
+    emit(state.copyWith(
+      userId: response.userId,
+      userName: response.userName,
+    ));
+  }
+
+  void handleUsersListResponse(Users users) {
+    emit(
+      state.copyWith(users: users),
+    );
   }
 
   void updateTypingState(bool isTyping) async {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubit/chat_cubit.dart';
+import '../../cubit/chat_cubit.dart';
 
 class JoinPage extends StatelessWidget {
   const JoinPage({
@@ -12,7 +12,7 @@ class JoinPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<ChatCubit>(context);
-    final ed = TextEditingController();
+    final controller = TextEditingController();
     return Scaffold(
       appBar: AppBar(title: const Text("Join Chat")),
       body: Column(
@@ -30,7 +30,7 @@ class JoinPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        controller: ed,
+                        controller: controller,
                         decoration: const InputDecoration(
                           hintText: "Enter your name",
                           enabledBorder: OutlineInputBorder(
@@ -44,7 +44,7 @@ class JoinPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        cubit.joinChat(ed.text);
+                        cubit.joinChat(controller.text);
                       },
                       child: const Text("Enter room"),
                     )
