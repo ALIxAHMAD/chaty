@@ -8,8 +8,7 @@ simple chat group:
   - authenticate with just sending your name when joining the stream (this should return a 
     UID that belong to your session)
   - and show the active members on slide with there names
-  - message state sending, sent, read by all users
-  - links colored blue and open in browser
+  - message state sending, sent.
   - no images just names for members
   - grpc bi stream
   - go mutex (use this for managing in-memory database of current users)
