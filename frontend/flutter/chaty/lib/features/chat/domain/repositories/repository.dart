@@ -3,22 +3,14 @@ import 'package:chaty/features/chat/domain/entities/chat_message.dart';
 import 'package:chaty/features/chat/domain/entities/chat_user.dart';
 
 abstract class ChatRepository {
-  final Stream<ChatMessage> messages;
-  final Stream<Users> users;
-  final Stream<JoinResponse> joinResponse;
-  final Stream<MessageResponse> messageResponses;
-  final Stream<UserEvents> userEvents;
-  final Stream<TypingState> typingStates;
-  final Stream<MessageUpdate> messageUpdates;
-  ChatRepository({
-    required this.messages,
-    required this.users,
-    required this.joinResponse,
-    required this.messageResponses,
-    required this.userEvents,
-    required this.typingStates,
-    required this.messageUpdates,
-  });
+  Stream<ChatMessage> get messages;
+  Stream<Users> get users;
+  Stream<JoinResponse> get joinResponse;
+  Stream<MessageResponse> get messageResponses;
+  Stream<UserEvents> get userEvents;
+  Stream<TypingState> get typingStates;
+  Stream<MessageUpdate> get messageUpdates;
+
   Future<void> connect();
   Future<void> join(String userName);
   Future<void> sendMessage(

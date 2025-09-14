@@ -68,3 +68,10 @@ class JoinResponseModel {
     required this.userId,
   });
 }
+
+class ListUsersModel {
+  final String id;
+  ListUsersModel({
+    required this.id,
+  });
+}

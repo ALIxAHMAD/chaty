@@ -3,23 +3,28 @@ package grpc
 import "chaty/grpc/proto"
 
 type Client struct {
-	Name    string
-	Id      string
-	Conn    proto.ChatService_ConnectServer
-	Message chan *Message
+	Name              string
+	Id                string
+	Conn              proto.ChatService_ConnectServer
+	BroadcastedEvents chan *BroadcastedEvent
 }
 
-type Message struct {
+type BroadcastedEvent struct {
 	SenderId string
 	Event    *proto.ServerEvents
 }
 
-func (c *Client) sendMessage() {
+// Sends broadcasted events from other users to this user
+func (c *Client) sendBroadcastedEvents() {
 	for {
-		msg := <-c.Message
-		if msg.SenderId == c.Id {
-			continue
+		select {
+		case event := <-c.BroadcastedEvents:
+			if event.SenderId == c.Id {
+				continue
+			}
+			c.Conn.Send(event.Event)
+		case <-c.Conn.Context().Done():
+			return
 		}
-		c.Conn.Send(msg.Event)
 	}
 }

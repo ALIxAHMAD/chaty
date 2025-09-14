@@ -17,3 +17,5 @@ simple chat group:
   - and write a test with 100 user sending messages at the same time
   - divide the project to frontend/flutter/{appname} and backend/go/{appname}
 ```
+## ScreenCast
+[view cast](screencast/Screencast1.webm)

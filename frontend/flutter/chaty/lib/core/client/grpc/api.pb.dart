@@ -15,7 +15,7 @@ export 'api.pbenum.dart';
 
 class JoinRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'JoinRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName', protoName: 'userName')
     ..hasRequiredFields = false
   ;
 
@@ -62,8 +62,8 @@ class JoinRequest extends $pb.GeneratedMessage {
 
 class JoinResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'JoinResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName', protoName: 'userName')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
     ..hasRequiredFields = false
   ;
 
@@ -123,8 +123,8 @@ class JoinResponse extends $pb.GeneratedMessage {
 
 class ChatMessage extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChatMessage', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName', protoName: 'userName')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'text')
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..hasRequiredFields = false
@@ -212,7 +212,7 @@ class ChatMessage extends $pb.GeneratedMessage {
 
 class MessageUpdate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MessageUpdate', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isRead')
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isRead', protoName: 'isRead')
     ..hasRequiredFields = false
   ;
 
@@ -320,8 +320,8 @@ class ReadMessage extends $pb.GeneratedMessage {
 
 class MessageResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MessageResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isOk')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'requestId')
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isOk', protoName: 'isOk')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'requestId', protoName: 'requestId')
     ..hasRequiredFields = false
   ;
 
@@ -381,8 +381,8 @@ class MessageResponse extends $pb.GeneratedMessage {
 
 class User extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'User', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName', protoName: 'userName')
     ..hasRequiredFields = false
   ;
 
@@ -483,9 +483,9 @@ class Users extends $pb.GeneratedMessage {
 
 class UserEvents extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UserEvents', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
     ..e<UserEvents_Events>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'events', $pb.PbFieldType.OE, defaultOrMaker: UserEvents_Events.joined, valueOf: UserEvents_Events.valueOf, enumValues: UserEvents_Events.values)
-    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName', protoName: 'userName')
     ..hasRequiredFields = false
   ;
 
@@ -558,8 +558,8 @@ class UserEvents extends $pb.GeneratedMessage {
 
 class TypingState extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TypingState', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
-    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isTyping')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isTyping', protoName: 'isTyping')
     ..hasRequiredFields = false
   ;
 
@@ -619,7 +619,7 @@ class TypingState extends $pb.GeneratedMessage {
 
 class ListUsers extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ListUsers', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'chaty'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', protoName: 'userId')
     ..hasRequiredFields = false
   ;
 
@@ -686,8 +686,8 @@ class ClientEvents extends $pb.GeneratedMessage {
     ..oo(0, [1, 2, 3, 4, 5])
     ..aOM<JoinRequest>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'joinRequest', protoName: 'joinRequest', subBuilder: JoinRequest.create)
     ..aOM<ChatMessage>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'chatMessage', protoName: 'chatMessage', subBuilder: ChatMessage.create)
-    ..aOM<TypingState>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typingState', protoName: 'typing_State', subBuilder: TypingState.create)
-    ..aOM<ListUsers>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'listUsers', subBuilder: ListUsers.create)
+    ..aOM<TypingState>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typingState', protoName: 'typingState', subBuilder: TypingState.create)
+    ..aOM<ListUsers>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'listUsers', protoName: 'listUsers', subBuilder: ListUsers.create)
     ..aOM<ReadMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'readMessage', protoName: 'readMessage', subBuilder: ReadMessage.create)
     ..hasRequiredFields = false
   ;
@@ -825,10 +825,10 @@ class ServerEvents extends $pb.GeneratedMessage {
     ..aOM<JoinResponse>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'joinResponse', protoName: 'joinResponse', subBuilder: JoinResponse.create)
     ..aOM<MessageResponse>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageResponse', protoName: 'messageResponse', subBuilder: MessageResponse.create)
     ..aOM<Users>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'users', subBuilder: Users.create)
-    ..aOM<UserEvents>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEvents', subBuilder: UserEvents.create)
-    ..aOM<ChatMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'chatMessage', subBuilder: ChatMessage.create)
-    ..aOM<TypingState>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typingState', subBuilder: TypingState.create)
-    ..aOM<MessageUpdate>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageUpdate', subBuilder: MessageUpdate.create)
+    ..aOM<UserEvents>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEvents', protoName: 'userEvents', subBuilder: UserEvents.create)
+    ..aOM<ChatMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'chatMessage', protoName: 'chatMessage', subBuilder: ChatMessage.create)
+    ..aOM<TypingState>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typingState', protoName: 'typingState', subBuilder: TypingState.create)
+    ..aOM<MessageUpdate>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageUpdate', protoName: 'messageUpdate', subBuilder: MessageUpdate.create)
     ..hasRequiredFields = false
   ;
 

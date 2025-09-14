@@ -98,7 +98,9 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<void> listUsers(String userId) async {
     clientEventsStreamController.add(
       ClientEventsModel(
-        listUsers: userId,
+        listUsers: ListUsersModel(
+          id: userId,
+        ),
       ),
     );
   }

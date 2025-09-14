@@ -41,6 +41,23 @@ class MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (userId == message.senderId) {
+      return ChatMessageCardCurrentUser(message: message);
+    }
+    return ChatMessageCardOtherUser(message: message);
+  }
+}
+
+class ChatMessageCardOtherUser extends StatelessWidget {
+  const ChatMessageCardOtherUser({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final ChatMessage message;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
         left: 14,
@@ -51,29 +68,22 @@ class MessageTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          message.senderId != userId
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 3, bottom: 2),
-                  child: Text(
-                    message.senderName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 11),
-                  ),
-                )
-              : const SizedBox(),
+          Padding(
+            padding: const EdgeInsets.only(left: 3, bottom: 2),
+            child: Text(
+              message.senderName,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+            ),
+          ),
           Align(
-            alignment: (message.senderId != userId
-                ? Alignment.topLeft
-                : Alignment.topRight),
+            alignment: (Alignment.topLeft),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: (message.senderId != userId
-                        ? Colors.grey.shade200
-                        : Colors.blue[200]),
+                    color: (Colors.grey.shade200),
                   ),
                   padding: const EdgeInsets.all(15),
                   child: Column(
@@ -88,12 +98,62 @@ class MessageTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                message.senderId == userId
-                    ? Icon(
-                        message.isSent ? Icons.check : Icons.access_time,
-                        size: 11,
-                      )
-                    : const SizedBox()
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ChatMessageCardCurrentUser extends StatelessWidget {
+  const ChatMessageCardCurrentUser({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final ChatMessage message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 14,
+        right: 14,
+        top: 5,
+        bottom: 5,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+            alignment: (Alignment.topRight),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: (Colors.blue[200]),
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Text(
+                        message.content,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  message.isSent ? Icons.check : Icons.access_time,
+                  size: 11,
+                )
               ],
             ),
           ),

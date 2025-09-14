@@ -38,15 +38,15 @@ class ChatClientImpl implements ChatClient {
           if (event.typingState != null) {
             return ClientEvents(
               typingState: TypingState(
-                isTyping: event.typingState?.isTyping,
-                userId: event.typingState?.userId,
+                isTyping: event.typingState!.isTyping,
+                userId: event.typingState!.userId,
               ),
             );
           }
           if (event.listUsers != null) {
             return ClientEvents(
               listUsers: ListUsers(
-                userId: event.listUsers,
+                userId: event.listUsers!.id,
               ),
             );
           } else {

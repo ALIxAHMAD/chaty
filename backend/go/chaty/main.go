@@ -1,11 +1,19 @@
 package main
 
-import "chaty/grpc"
+import (
+	"chaty/grpc"
+	"chaty/pkg/env"
+	"log"
+)
 
 func main() {
-	port := "8080"
+	env.Load(".env")
+	config, err := env.ParseConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 	hub := grpc.NewHub()
 	go hub.Run()
 	server := grpc.NewServer(hub)
-	server.Serve(port)
+	server.Serve(config.Port)
 }

@@ -3,58 +3,58 @@ option go_package = "./proto";
 package chaty;
 
 message JoinRequest{
-    string user_name = 1;
+    string userName = 1;
 }
 message JoinResponse{
-    string user_name = 1;
-    string user_id = 2;
+    string userName = 1;
+    string userId = 2;
 }
 message ChatMessage {
-    string user_id = 1;
-    string user_name = 2;
+    string userId = 1;
+    string userName = 2;
     string text = 3;
     string id = 4;
 }
 message MessageUpdate {
-    bool is_read = 1;
+    bool isRead = 1;
 }
 message ReadMessage{
     string id = 1;
     string messageId = 2;
 }
 message MessageResponse {
-    bool is_ok = 1;
-    string request_id = 2;
+    bool isOk = 1;
+    string requestId = 2;
 }
 message User {
-    string user_id = 1;
-    string user_name = 2;
+    string userId = 1;
+    string userName = 2;
 }
 message Users{
     repeated User users = 1;
 }
 message UserEvents {
-    string user_id = 1;
+    string userId = 1;
     Events events = 2;
-    string user_name =3;
+    string userName =3;
     enum Events {
         joined = 0;
         left = 1;
     }
 }
 message TypingState {
-    string user_id = 1;
-    bool is_typing = 2;
+    string userId = 1;
+    bool isTyping = 2;
 }
 message ListUsers {
-    string user_id = 1;
+    string userId = 1;
 }
 message ClientEvents {
     oneof event {
         JoinRequest joinRequest = 1;
         ChatMessage chatMessage = 2;
-        TypingState typing_State = 3;
-        ListUsers list_users = 4;
+        TypingState typingState = 3;
+        ListUsers listUsers = 4;
         ReadMessage readMessage = 5;
     }
 }
@@ -63,10 +63,10 @@ message ServerEvents {
         JoinResponse joinResponse = 1;
         MessageResponse messageResponse = 2;
         Users users = 3;
-        UserEvents user_events =4;
-        ChatMessage chat_message = 5;
-        TypingState typing_state = 6;
-        MessageUpdate message_update = 7;
+        UserEvents userEvents =4;
+        ChatMessage chatMessage = 5;
+        TypingState typingState = 6;
+        MessageUpdate messageUpdate = 7;
     }
 }
 

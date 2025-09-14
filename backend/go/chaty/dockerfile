@@ -1,0 +1,15 @@
+FROM golang AS builder
+
+RUN mkdir -p /app
+COPY . /app
+WORKDIR /app
+RUN CGO_ENABLED=0 go build -mod=vendor -ldflags="-w -s" -o main ./main.go
+
+FROM alpine
+
+COPY --from=builder app/main /
+COPY --from=builder app/.env /
+
+ENV FIREBASE_ADMIN_CREDENTIALS_PATH=firebase-credentials.json
+
+CMD ["/main"]

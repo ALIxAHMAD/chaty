@@ -11,7 +11,7 @@ type Hub struct {
 	Clients    map[string]*Client
 	Register   chan *Client
 	UnRegister chan *string
-	Broadcast  chan *Message
+	Broadcast  chan *BroadcastedEvent
 }
 
 func NewHub() *Hub {
@@ -20,7 +20,7 @@ func NewHub() *Hub {
 		Clients:    make(map[string]*Client),
 		Register:   make(chan *Client),
 		UnRegister: make(chan *string),
-		Broadcast:  make(chan *Message),
+		Broadcast:  make(chan *BroadcastedEvent),
 	}
 }
 
@@ -38,10 +38,10 @@ func (h *Hub) Run() {
 			h.Lock()
 			delete(h.Clients, *id)
 			h.Unlock()
-		case m := <-h.Broadcast:
+		case e := <-h.Broadcast:
 			h.Lock()
 			for _, cl := range h.Clients {
-				cl.Message <- m
+				cl.BroadcastedEvents <- e
 			}
 			h.Unlock()
 		}
@@ -52,13 +52,13 @@ func (h *Hub) ListConnectedUsers(userId string) []*proto.User {
 	h.Lock()
 	defer h.Unlock()
 	users := []*proto.User{}
-	for _, c := range h.Clients {
-		if c.Id == userId {
+	for _, cl := range h.Clients {
+		if cl.Id == userId {
 			continue
 		}
 		users = append(users, &proto.User{
-			UserId:   c.Id,
-			UserName: c.Name,
+			UserId:   cl.Id,
+			UserName: cl.Name,
 		})
 	}
 	return users

@@ -37,14 +37,13 @@ func (s *Server) Serve(port string) {
 func (s *Server) Connect(conn proto.ChatService_ConnectServer) error {
 	userId := fmt.Sprint(rand.Intn(1e6))
 	client := &Client{
-		Id:      userId,
-		Conn:    conn,
-		Message: make(chan *Message),
+		Id:                userId,
+		Conn:              conn,
+		BroadcastedEvents: make(chan *BroadcastedEvent),
 	}
 	for {
 		req, err := conn.Recv()
 		if err != nil {
-			fmt.Println("Error receiving request:", err)
 			s.handleUserDisconnect(client.Id, client.Name)
 			return err
 		}
@@ -55,7 +54,7 @@ func (s *Server) Connect(conn proto.ChatService_ConnectServer) error {
 			s.handleListUsers(conn, req, userId)
 		case *proto.ClientEvents_ChatMessage:
 			s.handleMessageRequest(conn, req, userId)
-		case *proto.ClientEvents_Typing_State:
+		case *proto.ClientEvents_TypingState:
 			s.handleUpdateTypingState(conn, req, userId)
 		}
 	}
@@ -75,8 +74,8 @@ func (s *Server) handleJoinRequest(conn proto.ChatService_ConnectServer, req *pr
 	}
 	client.Name = req.JoinRequest.UserName
 	s.Hub.Register <- client
-	go client.sendMessage()
-	msg := &Message{
+	go client.sendBroadcastedEvents()
+	event := &BroadcastedEvent{
 		SenderId: client.Id,
 		Event: &proto.ServerEvents{
 			Event: &proto.ServerEvents_UserEvents{
@@ -88,11 +87,11 @@ func (s *Server) handleJoinRequest(conn proto.ChatService_ConnectServer, req *pr
 			},
 		},
 	}
-	s.Hub.Broadcast <- msg
+	s.Hub.Broadcast <- event
 }
 
 func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_ChatMessage, userId string) {
-	msg := &Message{
+	event := &BroadcastedEvent{
 		SenderId: userId,
 		Event: &proto.ServerEvents{
 			Event: &proto.ServerEvents_ChatMessage{
@@ -105,7 +104,7 @@ func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req 
 			},
 		},
 	}
-	s.Hub.Broadcast <- msg
+	s.Hub.Broadcast <- event
 	conn.Send(&proto.ServerEvents{
 		Event: &proto.ServerEvents_MessageResponse{
 			MessageResponse: &proto.MessageResponse{
@@ -116,19 +115,19 @@ func (s *Server) handleMessageRequest(conn proto.ChatService_ConnectServer, req 
 	})
 }
 
-func (s *Server) handleUpdateTypingState(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_Typing_State, userId string) {
-	msg := &Message{
+func (s *Server) handleUpdateTypingState(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_TypingState, userId string) {
+	event := &BroadcastedEvent{
 		SenderId: userId,
 		Event: &proto.ServerEvents{
 			Event: &proto.ServerEvents_TypingState{
 				TypingState: &proto.TypingState{
-					UserId:   req.Typing_State.UserId,
-					IsTyping: req.Typing_State.IsTyping,
+					UserId:   req.TypingState.UserId,
+					IsTyping: req.TypingState.IsTyping,
 				},
 			},
 		},
 	}
-	s.Hub.Broadcast <- msg
+	s.Hub.Broadcast <- event
 }
 
 func (s *Server) handleListUsers(conn proto.ChatService_ConnectServer, req *proto.ClientEvents_ListUsers, userId string) {
@@ -144,7 +143,7 @@ func (s *Server) handleListUsers(conn proto.ChatService_ConnectServer, req *prot
 
 func (s *Server) handleUserDisconnect(userId string, userName string) {
 	s.Hub.UnRegister <- &userId
-	msg := &Message{
+	event := &BroadcastedEvent{
 		SenderId: userId,
 		Event: &proto.ServerEvents{
 			Event: &proto.ServerEvents_UserEvents{
@@ -155,5 +154,5 @@ func (s *Server) handleUserDisconnect(userId string, userName string) {
 			},
 		},
 	}
-	s.Hub.Broadcast <- msg
+	s.Hub.Broadcast <- event
 }

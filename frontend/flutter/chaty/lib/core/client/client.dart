@@ -12,7 +12,7 @@ class ClientEventsModel {
   final String? joinRequest;
   final ChatMessageModel? messageRequest;
   final TypingStateModel? typingState;
-  final String? listUsers;
+  final ListUsersModel? listUsers;
   ClientEventsModel({
     this.joinRequest,
     this.messageRequest,
