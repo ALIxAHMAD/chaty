@@ -14,7 +14,7 @@ simple chat group:
   - grpc bi stream
   - go mutex (use this for managing in-memory database of current users)
   - go routines and channels (for managing updates also as event system on the backend)
-  - and write a test with 100 user sending messages at the same time
+  - clean architecture for frontend
   - divide the project to frontend/flutter/{appname} and backend/go/{appname}
 ```
 ## ScreenCast
